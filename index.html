@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autodiagnostic IRC · XpLearn</title>
+<meta name="description" content="En 10 minutes, mesurez la vulnérabilité de votre entreprise à la perte de ses savoir-faire critiques. Autodiagnostic gratuit XpLearn fondé sur la recherche.">
+<style>
+:root{
+  --petrol:#11607C; --petrol-d:#0b4558; --terra:#C9663E; --sage:#7FA38F; --cream:#F5EFE6;
+  --ink:#1f2a30; --muted:#5c6970; --line:#e3dcd0; --bg:#fbf8f3; --card:#ffffff;
+  --ok:#5d8f74; --mid:#d39b2a; --high:#C9663E; --crit:#a3392b;
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: Calibri, "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
+a{color:var(--petrol)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header.top{background:var(--petrol);color:#fff}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.brand{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.2px}
+.brand span{color:#f3c9b5}
+.tag{font-size:13px;opacity:.85}
+main{padding:28px 0 56px}
+h1,h2,h3{font-family:var(--serif);color:var(--petrol);line-height:1.25}
+h1{font-size:clamp(26px,5vw,36px);margin:.2em 0 .4em}
+h2{font-size:clamp(21px,3.6vw,26px);margin:1.4em 0 .5em}
+h3{font-size:19px;margin:1.1em 0 .4em}
+.eyebrow{color:var(--terra);font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:1px}
+.lead{font-size:19px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.pill-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:22px 0}
+.pill{background:var(--cream);border-radius:12px;padding:14px 16px;font-size:15px}
+.pill b{display:block;color:var(--petrol);font-size:16px}
+.btn{appearance:none;border:0;border-radius:999px;padding:14px 26px;font:700 16px var(--sans);cursor:pointer;background:var(--terra);color:#fff;transition:transform .1s, background .2s}
+.btn:hover{background:#b5562f}
+.btn:active{transform:scale(.98)}
+.btn:disabled{background:#c9c2b8;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--petrol);border:1.5px solid var(--petrol)}
+.btn.ghost:hover{background:var(--petrol);color:#fff}
+.small{font-size:14px;color:var(--muted)}
+.hidden{display:none !important}
+
+/* quiz */
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 18px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--sage),var(--petrol));width:0;transition:width .35s}
+.qmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
+.bloc{color:var(--terra);font-weight:700}
+.qtext{font-family:var(--serif);font-size:clamp(20px,3.6vw,24px);color:var(--ink);margin:6px 0 18px;line-height:1.35}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;font:16px/1.45 var(--sans);color:var(--ink);cursor:pointer;transition:border-color .15s, background .15s}
+.opt:hover{border-color:var(--sage)}
+.opt.sel{border-color:var(--petrol);background:#eef5f7}
+.opt .l{flex:0 0 28px;height:28px;border-radius:50%;background:var(--cream);color:var(--petrol);font-weight:700;display:grid;place-items:center}
+.opt.sel .l{background:var(--petrol);color:#fff}
+.hint{font-size:14px;color:var(--muted);margin-top:14px}
+@media (hover:none){.hint{display:none}}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:10px}
+
+/* results */
+.gauge-wrap{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:center}
+@media (max-width:620px){.gauge-wrap{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.gauge{position:relative;width:220px;height:130px}
+.gauge svg{width:220px;height:130px}
+.gauge .val{position:absolute;left:0;right:0;bottom:2px;text-align:center}
+.gauge .val b{font:700 42px var(--serif);color:var(--ink)}
+.gauge .val span{font-size:14px;color:var(--muted)}
+.level{display:inline-block;padding:4px 12px;border-radius:999px;color:#fff;font-weight:700;font-size:14px;letter-spacing:.3px}
+.bars{display:grid;gap:14px;margin-top:8px}
+.bar label{display:flex;justify-content:space-between;font-size:15px;font-weight:700}
+.bar label span{font-weight:400;color:var(--muted)}
+.bar .track{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:5px}
+.bar .track i{display:block;height:100%;border-radius:99px;width:0;transition:width .8s}
+.alert{border-left:6px solid var(--crit);background:#fbece8;padding:16px 18px;border-radius:10px;margin:20px 0}
+.alert b{color:var(--crit)}
+.orient{border-left:6px solid var(--petrol);background:#eef5f7;padding:18px;border-radius:10px}
+.orient h3{margin-top:0}
+.stat{display:flex;gap:16px;align-items:center;background:var(--cream);border-radius:12px;padding:16px 18px;margin:16px 0}
+.stat .big{font:700 30px var(--serif);color:var(--terra);white-space:nowrap}
+.weak{display:grid;gap:12px}
+.weak .w{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+.weak .w h4{margin:0 0 4px;font-size:16px;color:var(--petrol)}
+.weak .w p{margin:4px 0;font-size:15px}
+.weak .w .act{color:var(--ink)}
+.weak .w .act::before{content:"→ ";color:var(--terra);font-weight:700}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.fact{background:#fff;border:1px solid var(--line);border-top:4px solid var(--sage);border-radius:12px;padding:14px 16px;font-size:15px}
+.fact b{display:block;font-family:var(--serif);color:var(--petrol);font-size:17px;margin-bottom:4px}
+.fact cite{display:block;font-size:13px;color:var(--muted);margin-top:6px;font-style:normal}
+details{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 16px;margin-top:10px}
+details summary{cursor:pointer;padding:14px 0;font-weight:700;color:var(--petrol)}
+.detail-row{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* form */
+form .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){form .grid{grid-template-columns:1fr}}
+.field label{display:block;font-weight:700;font-size:15px;margin-bottom:5px}
+.field input,.field select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:10px;font:16px var(--sans);background:#fff;color:var(--ink)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--petrol)}
+.choices{display:grid;gap:10px;margin:8px 0 4px}
+.choice{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;cursor:pointer;background:#fff}
+.choice:has(input:checked){border-color:var(--petrol);background:#eef5f7}
+.choice input{margin-top:4px;accent-color:var(--petrol);width:18px;height:18px;flex:0 0 18px}
+.choice b{display:block}
+.choice span{font-size:14px;color:var(--muted)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);margin:16px 0}
+.consent input{margin-top:3px;accent-color:var(--petrol);width:18px;height:18px;flex:0 0 18px}
+.hp{position:absolute;left:-9999px}
+.ok{background:#eaf3ee;border-left:6px solid var(--ok);padding:16px 18px;border-radius:10px}
+.err{color:var(--crit);font-size:14px;margin-top:8px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:13px;color:var(--muted)}
+footer ol{padding-left:18px;margin:6px 0}
+@media print{
+  header.top,.no-print,#contact,footer .refs-toggle{display:none !important}
+  body{background:#fff}
+  .card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Xp<span>Learn</span></div>
+    <div class="tag">Autodiagnostic IRC</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ========== INTRO ========== -->
+<section id="intro">
+  <div class="eyebrow">Autodiagnostic gratuit · 10 minutes</div>
+  <h1>Votre entreprise peut-elle perdre ses savoir-faire critiques&nbsp;?</h1>
+  <p class="lead">Un départ à la retraite, une démission, une absence longue… et ce que « seul Michel sait faire » disparaît avec lui. En 10 questions, mesurez votre <strong>indice de vulnérabilité à la perte de savoir-faire</strong> et sachez par où commencer.</p>
+
+  <div class="pill-list">
+    <div class="pill"><b>Pour qui ?</b>Dirigeant·es, RH, managers</div>
+    <div class="pill"><b>Sur quel périmètre ?</b>L'entreprise entière ou un service</div>
+    <div class="pill"><b>Résultat immédiat</b>Indice, points de fragilité, pistes d'action</div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Avant de commencer</h3>
+    <ul style="margin:0;padding-left:20px">
+      <li>Répondez selon ce qui se passe <strong>réellement</strong>, pas selon ce qui devrait se passer.</li>
+      <li>Ne pensez à personne en particulier : raisonnez par savoir-faire et par poste.</li>
+      <li>Aucune donnée n'est enregistrée pendant le test. Vos coordonnées ne sont demandées qu'à la fin, et seulement si vous le souhaitez.</li>
+    </ul>
+    <p style="margin:20px 0 0"><button class="btn" id="start">Commencer le test</button></p>
+  </div>
+  <p class="small" style="margin-top:14px">Outil conçu par Coralie Vennin, psychologue et chercheure (XpLearn), à partir de la littérature scientifique sur la perte et la rétention des connaissances.</p>
+</section>
+
+<!-- ========== QUIZ ========== -->
+<section id="quiz" class="hidden" aria-live="polite">
+  <div class="qmeta"><span class="bloc" id="qbloc"></span><span id="qcount"></span></div>
+  <div class="progress"><i id="qprog"></i></div>
+  <div class="card">
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="qopts" role="radiogroup"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Précédent</button>
+      <button class="btn" id="next" disabled>Suivant →</button>
+    </div>
+  </div>
+  <p class="hint">Astuce : vous pouvez répondre avec les touches A, B, C, D puis Entrée.</p>
+</section>
+
+<!-- ========== RESULTS ========== -->
+<section id="results" class="hidden">
+  <div class="eyebrow">Vos résultats</div>
+  <h1>Votre indice de vulnérabilité à la perte de savoir-faire</h1>
+
+  <div class="card">
+    <div class="gauge-wrap">
+      <div class="gauge">
+        <svg viewBox="0 0 220 130" aria-hidden="true">
+          <path d="M20 115 A90 90 0 0 1 200 115" fill="none" stroke="#e3dcd0" stroke-width="18" stroke-linecap="round"/>
+          <path id="garc" d="M20 115 A90 90 0 0 1 200 115" fill="none" stroke="#11607C" stroke-width="18" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" style="transition:stroke-dashoffset 1s ease, stroke .3s"/>
+        </svg>
+        <div class="val"><b id="gval">0</b><span>/100</span></div>
+      </div>
+      <div>
+        <span class="level" id="glevel"></span>
+        <p id="gtext" style="margin:10px 0 0"></p>
+      </div>
+    </div>
+    <div class="bars" style="margin-top:22px">
+      <div class="bar"><label>Exposition de vos savoirs critiques <span id="eTxt"></span></label><div class="track"><i id="eBar"></i></div>
+        <div class="small">Ce qui est critique, concentré, menacé et difficile à transmettre.</div></div>
+      <div class="bar"><label>Fragilité de vos pratiques de transmission <span id="tTxt"></span></label><div class="track"><i id="tBar"></i></div>
+        <div class="small">Méthode, temps dédié, anticipation et culture du partage.</div></div>
+    </div>
+  </div>
+
+  <div id="alertBox" class="alert hidden"><b>Alerte prioritaire.</b> Au moins un savoir-faire critique repose sur une seule personne, et son indisponibilité est probable dans les prochaines années. C'est le scénario de perte le plus fréquent et le plus coûteux. Organisez une transmission ciblée dans les semaines qui viennent.</div>
+
+  <div id="statBox" class="stat"></div>
+
+  <h2>Ce que nous vous recommandons</h2>
+  <div class="orient" id="orient"></div>
+
+  <h2>Vos principaux points de fragilité</h2>
+  <div class="weak" id="weak"></div>
+
+  <h2>Ce que dit la recherche</h2>
+  <div class="facts">
+    <div class="fact"><b>Le savoir qui part ne revient pas seul</b>Dans une étude suivie sur cinq ans, le déficit de connaissances créé par les départs ne s'est pas comblé avec le temps. Il a fallu une démarche active pour en limiter les effets.<cite>Massingham, 2018</cite></div>
+    <div class="fact"><b>Le temps manque, même quand on est conscient</b>Dans les PME, les équipes voient le risque mais restent absorbées par les commandes en cours. La transmission passe toujours après.<cite>Durst &amp; Wilhelm, 2012</cite></div>
+    <div class="fact"><b>On agit souvent trop tard</b>La majorité des démarches étudiées réagissent à une perte déjà en cours plutôt que de la prévenir.<cite>Daghfous et al., 2023</cite></div>
+    <div class="fact"><b>Le plus précieux n'est pas écrit</b>Le principal frein au transfert tient au savoir lui-même : difficile à expliquer, il ne se transmet pas par un simple document.<cite>Szulanski, 1996</cite></div>
+  </div>
+
+  <details>
+    <summary>Voir le détail de vos 10 réponses</summary>
+    <div id="detail"></div>
+  </details>
+
+  <p class="no-print" style="margin-top:18px"><button class="btn ghost" onclick="window.print()">Imprimer ou enregistrer en PDF</button> <button class="btn ghost" id="restart">Refaire le test</button></p>
+
+  <!-- ========== CONTACT ========== -->
+  <div id="contact" class="card" style="margin-top:30px;border:2px solid var(--petrol)">
+    <h2 style="margin-top:0">Et maintenant, on passe à l'action ?</h2>
+    <p>Indiquez ce dont vous avez besoin. Vous recevrez votre <strong>analyse détaillée par e-mail</strong> et, si vous le souhaitez, Coralie Vennin vous recontactera pour en parler.</p>
+    <form id="form" novalidate>
+      <div class="grid">
+        <div class="field"><label for="prenom">Prénom *</label><input id="prenom" name="prenom" autocomplete="given-name" required></div>
+        <div class="field"><label for="nom">Nom *</label><input id="nom" name="nom" autocomplete="family-name" required></div>
+        <div class="field"><label for="fonction">Fonction *</label>
+          <select id="fonction" name="fonction" required>
+            <option value="">Choisir…</option><option>Dirigeant·e</option><option>Responsable RH</option><option>Manager</option><option>Autre</option>
+          </select></div>
+        <div class="field"><label for="email">E-mail professionnel *</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="entreprise">Entreprise</label><input id="entreprise" name="entreprise" autocomplete="organization"></div>
+        <div class="field"><label for="effectif">Effectif</label>
+          <select id="effectif" name="effectif"><option value="">Choisir…</option><option>Moins de 10</option><option>10 à 49</option><option>50 à 249</option><option>250 et plus</option></select></div>
+      </div>
+
+      <h3>Ce qui vous aiderait le plus</h3>
+      <div class="choices" id="choices">
+        <label class="choice"><input type="radio" name="besoin" value="Accompagnement"><div><b>Être accompagné·e pour capitaliser nos savoirs critiques</b><span>Un intervenant identifie, recueille et organise la transmission avec vos équipes.</span></div></label>
+        <label class="choice"><input type="radio" name="besoin" value="Formation"><div><b>Former nos managers ou experts à une méthode</b><span>Pour mener la capitalisation en interne, en autonomie.</span></div></label>
+        <label class="choice"><input type="radio" name="besoin" value="Échange"><div><b>Échanger 30 minutes pour y voir plus clair</b><span>Gratuit et sans engagement, autour de vos résultats.</span></div></label>
+        <label class="choice"><input type="radio" name="besoin" value="Analyse seule"><div><b>Recevoir seulement l'analyse détaillée</b><span>Aucun recontact.</span></div></label>
+      </div>
+
+      <input class="hp" tabindex="-1" autocomplete="off" name="site" id="site" aria-hidden="true">
+      <label class="consent"><input type="checkbox" id="rgpd" required><span>J'accepte que XpLearn utilise ces informations pour m'envoyer mon analyse et, selon mon choix ci-dessus, me recontacter. Elles ne sont jamais cédées à des tiers et sont conservées 3 ans au plus après le dernier contact. Je peux demander leur consultation ou leur suppression à tout moment : <a href="mailto:cvennin@xplearn.fr">cvennin@xplearn.fr</a>.</span></label>
+      <button class="btn" type="submit" id="send">Recevoir mon analyse</button>
+      <div class="err hidden" id="ferr"></div>
+    </form>
+    <div id="thanks" class="ok hidden"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Méthode IRC (Indice de Risque Connaissances), v0.1. © XpLearn, Mérignac. Fondé sur la littérature scientifique en gestion des connaissances, cet autodiagnostic vous donne une première lecture de votre situation et des pistes concrètes. Un diagnostic accompagné permet ensuite d'aller plus loin.</p>
+    <details class="refs-toggle"><summary>Références scientifiques</summary>
+      <ol>
+        <li>Daghfous, A., et al. (2023). Managing knowledge loss: A systematic literature review and future research directions. <em>Journal of Enterprise Information Management</em>. https://doi.org/10.1108/JEIM-05-2022-0171</li>
+        <li>Durst, S., &amp; Wilhelm, S. (2012). Knowledge management and succession planning in SMEs. <em>Journal of Knowledge Management, 16</em>(4), 637–649.</li>
+        <li>International Atomic Energy Agency. (2006). <em>Risk management of knowledge loss in nuclear industry organizations</em>. IAEA.</li>
+        <li>Jennex, M. E. (2014). A proposed method for assessing knowledge loss risk with departing personnel. <em>VINE, 44</em>(2), 185–209.</li>
+        <li>Levy, M. (2011). Knowledge retention: Minimizing organizational business loss. <em>Journal of Knowledge Management, 15</em>(4), 582–600.</li>
+        <li>Martins, E. C., &amp; Meyer, H. W. J. (2012). Organizational and behavioral factors that influence knowledge retention. <em>Journal of Knowledge Management, 16</em>(1), 77–96.</li>
+        <li>Massingham, P. R. (2018). Measuring the impact of knowledge loss: A longitudinal study. <em>Journal of Knowledge Management, 22</em>(4), 721–758.</li>
+        <li>Szulanski, G. (1996). Exploring internal stickiness: Impediments to the transfer of best practice within the firm. <em>Strategic Management Journal, 17</em>(S2), 27–43.</li>
+      </ol>
+    </details>
+  </div>
+</footer>
+
+<script>
+/* ===================== CONFIGURATION ===================== */
+// Collez ici l'URL de déploiement de votre Apps Script (se termine par /exec)
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycby8PnL21dNxwe25k6IzVMeg-qYTTEWHu3mT46TOTUjCujagcYJ6urbmRjiCB2su6cv3/exec';
+const VERSION = 'IRC v0.1';
+
+/* ===================== DONNÉES ===================== */
+const BLOCS = { A:'Bloc A · Ce qui est critique', B:'Bloc B · Ce qui est fragile', C:'Bloc C · Méthode et temps' };
+const Q = [
+ {b:'A', short:'Identification des savoirs critiques',
+  t:"Si on vous demandait, maintenant, de citer les 3 savoir-faire sans lesquels votre activité serait fortement perturbée d'ici 3 mois, que se passerait-il ?",
+  o:["Je les cite immédiatement : ils sont écrits et partagés avec l'équipe de direction.","Je les cite rapidement, mais ils ne sont écrits nulle part.","Il me faut réfléchir, et je ne suis pas certain·e de la liste.","Je ne saurais pas les identifier précisément."],
+  why:"On ne protège que ce qu'on a identifié. Ne pas pouvoir nommer ses savoirs critiques est déjà un signal de risque.",
+  act:"Réunissez l'équipe de direction pendant une heure pour lister vos 5 à 10 savoir-faire critiques. C'est la base de toute démarche."},
+ {b:'A', short:'Concentration sur une seule personne',
+  t:"Pour ces savoir-faire critiques, combien de personnes sont capables de les mettre en œuvre seules, sans aide ?",
+  o:["Au moins 3 personnes pour chacun.","2 personnes pour la plupart.","Une seule personne pour au moins l'un d'eux.","Une seule personne pour plusieurs d'entre eux, ou un prestataire extérieur."],
+  why:"Un savoir détenu par une seule personne disparaît entièrement avec elle. C'est le premier multiplicateur du risque.",
+  act:"Pour chaque savoir détenu par une seule personne, désignez dès maintenant un binôme qui apprend en situation de travail."},
+ {b:'A', short:'Indisponibilités à venir',
+  t:"Dans les 3 prochaines années, l'une des personnes qui détiennent ces savoirs pourrait-elle devenir indisponible (retraite, mobilité, départ, absence longue) ?",
+  o:["Rien de connu ou de prévisible à ce jour.","C'est possible, mais lointain ou incertain.","C'est probable pour au moins une personne.","C'est certain ou déjà annoncé, ou un départ récent a déjà eu lieu."],
+  why:"C'est la composante « imminence » du risque : plus l'échéance est proche, moins il reste de temps pour transmettre.",
+  act:"Croisez vos savoirs critiques avec les échéances connues, par poste et sans noms, pour décider par quoi commencer."},
+ {b:'A', short:"Temps d'apprentissage",
+  t:"Combien de temps faut-il à un nouvel arrivant compétent pour maîtriser ces savoirs de façon autonome ?",
+  o:["Moins de 3 mois.","De 3 à 6 mois.","De 6 à 18 mois.","Plus de 18 mois, ou on n'y arrive jamais complètement."],
+  why:"Plus l'apprentissage est long, plus le savoir est rare et coûteux à reconstituer.",
+  act:"Un apprentissage long impose de démarrer la transmission bien avant le départ : la durée d'apprentissage indique combien de temps à l'avance commencer."},
+ {b:'B', short:'Effets du dernier départ',
+  t:"La dernière fois qu'une personne expérimentée est partie, qu'est-ce qui s'est passé ?",
+  o:["La transition avait été préparée : aucun impact visible.","Quelques ajustements, rapidement absorbés.","Erreurs, retards, questions sans réponse, clients ou fournisseurs à rassurer.","Une perte durable : « on ne sait plus faire », on a dû sous-traiter ou réembaucher."],
+  why:"Votre propre passé est le meilleur indicateur dont vous disposez : ce qui s'est produit se reproduira.",
+  act:"Faites un court retour d'expérience sur le dernier départ : qu'est-ce qui a manqué, et à quel moment ?"},
+ {b:'B', short:'Nature du savoir (tacite)',
+  t:"Aujourd'hui, où se trouve principalement ce savoir critique ?",
+  o:["Formalisé, à jour et effectivement utilisé (procédures, bases, supports).","En partie documenté, mais incomplet ou ancien.","Surtout dans la tête des personnes, transmis à l'oral, au fil de l'eau.","Dans la tête des personnes et difficile à expliquer : tours de main, intuitions, réseau de relations."],
+  why:"Le savoir tacite (ce qu'on sait faire sans savoir l'expliquer) et le savoir relationnel sont les plus difficiles à transmettre.",
+  act:"Le savoir tacite ne passe pas par un document : prévoyez de l'observation, du compagnonnage et des entretiens d'explicitation."},
+ {b:'C', short:'Méthode de capitalisation',
+  t:"Disposez-vous d'une méthode pour recueillir et transmettre ces savoirs (entretiens structurés, retours d'expérience, cartographie, binômes organisés) ?",
+  o:["Oui, une méthode connue, appliquée régulièrement.","Oui, mais de façon ponctuelle, ou par une seule personne.","Non : on fait au cas par cas, de façon informelle.","Non, et on ne saurait pas par où commencer."],
+  why:"Sans méthode, on accumule des documents que personne n'utilise. Une démarche efficace délimite le savoir, le recueille, puis le réintègre dans l'activité.",
+  act:"Adoptez une méthode structurée en trois temps : délimiter, recueillir, réintégrer. Une formation courte suffit souvent à l'installer."},
+ {b:'C', short:'Temps dédié à la transmission',
+  t:"Les personnes qui détiennent ces savoirs ont-elles du temps dédié pour les transmettre ?",
+  o:["Oui : du temps planifié et protégé.","Occasionnellement, lors de moments prévus.","Seulement si la charge le permet, donc rarement.","Jamais : la production passe toujours avant."],
+  why:"C'est le frein le plus fréquent dans les PME. Une formation ne crée pas le temps qui manque.",
+  act:"Sans temps protégé, rien ne se passe. Arbitrez quelques heures par mois pour les experts concernés, ou confiez le recueil à un intervenant externe."},
+ {b:'C', short:'Anticipation',
+  t:"Quand un départ est connu à l'avance, quand la transmission commence-t-elle ?",
+  o:["Plus de 12 mois avant, ou en continu, sans attendre de départ.","6 à 12 mois avant.","Dans les dernières semaines.","Après le départ, ou jamais."],
+  why:"Une transmission démarrée dans les dernières semaines est presque toujours incomplète.",
+  act:"Commencez au moins 6 à 12 mois avant un départ connu. Idéalement, faites-en une pratique continue."},
+ {b:'C', short:'Portage et culture du partage',
+  t:"Le partage des connaissances est-il porté par la direction et reconnu dans l'organisation ?",
+  o:["Oui : c'est un objectif explicite, avec des moyens et une reconnaissance (entretiens annuels, temps, valorisation).","C'est encouragé à l'oral, sans moyens dédiés.","Le sujet n'est pas abordé.","Il existe des freins : « le savoir, c'est le pouvoir », peur d'être remplaçable, concurrence interne."],
+  why:"Le leadership et la culture font partie des facteurs les plus constamment associés à la rétention des connaissances.",
+  act:"Rendez le partage visible et reconnu : objectifs, entretiens annuels, valorisation de celles et ceux qui transmettent."}
+];
+const LEARN = ["moins de 3 mois","3 à 6 mois","6 à 18 mois","plus de 18 mois"];
+const LEVELS = [
+ {max:7,  label:'Vulnérabilité faible',   color:'#5d8f74', text:"Vos savoirs critiques sont identifiés, partagés et transmis. Gardez le cap et refaites ce diagnostic chaque année ou à chaque réorganisation."},
+ {max:15, label:'Vulnérabilité modérée',  color:'#d39b2a', text:"Des fragilités existent, souvent concentrées sur quelques savoirs. C'est le meilleur moment pour agir : le coût est encore faible."},
+ {max:22, label:'Vulnérabilité élevée',   color:'#C9663E', text:"Plusieurs savoirs critiques sont exposés, et votre capacité à les transmettre est limitée. Un seul départ peut désorganiser l'activité."},
+ {max:30, label:'Vulnérabilité critique', color:'#a3392b', text:"Votre savoir-faire critique dépend de quelques personnes, sans méthode ni temps pour le transmettre. Le risque est probablement déjà en train de se réaliser."}
+];
+
+/* ===================== ÉTAT ===================== */
+let answers = new Array(Q.length).fill(null);
+let cur = 0;
+let result = null;
+const $ = id => document.getElementById(id);
+function show(id){ ['intro','quiz','results'].forEach(s => $(s).classList.toggle('hidden', s!==id)); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ===================== QUIZ ===================== */
+function render(){
+  const q = Q[cur];
+  $('qbloc').textContent = BLOCS[q.b];
+  $('qcount').textContent = `Question ${cur+1} sur ${Q.length}`;
+  $('qprog').style.width = `${(cur)/Q.length*100}%`;
+  $('qtext').textContent = q.t;
+  const box = $('qopts'); box.innerHTML = '';
+  q.o.forEach((txt,i) => {
+    const b = document.createElement('button');
+    b.type='button'; b.className = 'opt' + (answers[cur]===i?' sel':'');
+    b.setAttribute('role','radio'); b.setAttribute('aria-checked', answers[cur]===i);
+    b.innerHTML = `<span class="l">${'ABCD'[i]}</span><span></span>`;
+    b.lastChild.textContent = txt;
+    b.onclick = () => pick(i);
+    box.appendChild(b);
+  });
+  $('prev').style.visibility = cur===0 ? 'hidden' : 'visible';
+  $('next').disabled = answers[cur]===null;
+  $('next').textContent = cur===Q.length-1 ? 'Voir mes résultats →' : 'Suivant →';
+}
+function pick(i){
+  answers[cur]=i; render();
+  if(cur < Q.length-1) setTimeout(()=>{ if(answers[cur]===i){ cur++; render(); } }, 280);
+}
+$('start').onclick = () => { show('quiz'); render(); };
+$('prev').onclick = () => { if(cur>0){cur--; render();} };
+$('next').onclick = () => { if(answers[cur]===null) return; if(cur<Q.length-1){cur++; render();} else finish(); };
+document.addEventListener('keydown', e => {
+  if($('quiz').classList.contains('hidden')) return;
+  const k = e.key.toUpperCase();
+  if('ABCD'.includes(k) && k.length===1) pick('ABCD'.indexOf(k));
+  if(e.key==='Enter' && answers[cur]!==null) $('next').click();
+  if(e.key==='ArrowLeft') $('prev').click();
+});
+
+/* ===================== SCORE ===================== */
+function compute(){
+  const s = answers;
+  const E = s.slice(0,6).reduce((a,b)=>a+b,0);
+  const T = s.slice(6).reduce((a,b)=>a+b,0);
+  const total = E+T;
+  const indice = Math.round(total/30*100);
+  const level = LEVELS.find(l => total <= l.max);
+  const alerte = s[1]===3 && s[2]>=2;
+  const Ehigh = E>=9, Thigh = T>=6;
+  let orient;
+  if(Ehigh && Thigh) orient = 'accompagnement';
+  else if(Ehigh && !Thigh) orient = 'formation';
+  else if(!Ehigh && Thigh) orient = 'prevention';
+  else orient = 'veille';
+  // affinement méthode / temps
+  let nuance = '';
+  if(s[7]>=2) { nuance = 'temps'; if(orient==='formation') orient='accompagnement'; }
+  else if(s[6]>=2) nuance = 'methode';
+  const culture = s[9]===3;
+  return {E,T,total,indice,level,alerte,orient,nuance,culture};
+}
+
+const ORIENT = {
+  accompagnement:{t:"Un accompagnement pour capitaliser vos savoirs critiques",
+    p:"Vos savoirs critiques sont fortement exposés, et votre organisation n'a pas aujourd'hui les ressources (méthode, temps) pour les sécuriser seule. Un intervenant externe peut cartographier vos savoirs prioritaires, les recueillir auprès de vos experts et organiser la transmission, sans alourdir la charge de vos équipes."},
+  formation:{t:"Former vos équipes à une méthode de capitalisation",
+    p:"Vous disposez de conditions favorables (temps, culture), mais vos savoirs exposés sont nombreux. Former vos managers et vos experts à une méthode de recueil et de transmission vous permettra de traiter vous-mêmes vos savoirs prioritaires."},
+  prevention:{t:"Installer dès maintenant une méthode, avant le prochain départ",
+    p:"Votre exposition est encore limitée, mais votre organisation n'est pas prête à transmettre. C'est le moment idéal pour une sensibilisation ou une formation courte : on installe les bons réflexes à moindre coût, avant que le risque ne se concrétise."},
+  veille:{t:"Maintenir vos bonnes pratiques",
+    p:"Votre situation est maîtrisée. Gardez vos pratiques actuelles et refaites ce diagnostic chaque année ou à chaque changement important (réorganisation, départs, croissance)."}
+};
+const NUANCE = {
+  temps:"<strong>Le facteur limitant chez vous, c'est le temps.</strong> Une formation seule ne suffira pas, car elle ne libère pas d'heures. Il faut soit une décision de la direction pour protéger du temps de transmission, soit un intervenant qui prenne en charge le recueil.",
+  methode:"<strong>Le facteur limitant chez vous, c'est la méthode.</strong> Vous avez un peu de marge en temps : se former à une démarche structurée est le levier le plus rentable."
+};
+
+function finish(){
+  $('qprog').style.width='100%';
+  result = compute();
+  const r = result;
+  show('results');
+  // gauge
+  const arc = $('garc');
+  arc.style.stroke = r.level.color;
+  requestAnimationFrame(()=> arc.style.strokeDashoffset = 283 - 283*r.indice/100 );
+  animate($('gval'), r.indice);
+  $('glevel').textContent = r.level.label; $('glevel').style.background = r.level.color;
+  $('gtext').textContent = r.level.text;
+  // bars
+  const eP = Math.round(r.E/18*100), tP = Math.round(r.T/12*100);
+  $('eTxt').textContent = eP+' %'; $('tTxt').textContent = tP+' %';
+  $('eBar').style.background = barColor(eP); $('tBar').style.background = barColor(tP);
+  setTimeout(()=>{ $('eBar').style.width=eP+'%'; $('tBar').style.width=tP+'%'; }, 60);
+  // alert
+  $('alertBox').classList.toggle('hidden', !r.alerte);
+  // stat
+  const learn = LEARN[answers[3]];
+  const solo = answers[1]>=2;
+  $('statBox').innerHTML = `<div class="big">${learn}</div><div>D'après vos réponses, c'est le temps nécessaire pour qu'un remplaçant maîtrise vos savoirs critiques${solo ? ", alors qu'<strong>au moins l'un d'eux repose sur une seule personne</strong>" : ""}. Et ce délai ne compte pas le temps de recrutement${answers[8]>=2 ? " : or votre transmission démarre aujourd'hui dans les dernières semaines, voire après le départ" : ""}.</div>`;
+  // orientation
+  const o = ORIENT[r.orient];
+  let html = `<h3>${o.t}</h3><p>${o.p}</p>`;
+  if(r.nuance && r.orient!=='veille') html += `<p>${NUANCE[r.nuance]}</p>`;
+  if(r.culture) html += `<p><strong>Point d'attention :</strong> vous signalez des freins culturels au partage. Un travail sur le sens et la reconnaissance doit accompagner toute démarche technique, sans quoi les experts risquent de garder leur savoir.</p>`;
+  if(r.orient!=='veille') html += `<p class="no-print" style="margin:12px 0 0"><a class="btn" href="#contact" style="text-decoration:none;display:inline-block">${r.orient==='accompagnement'?'Parler d\'un accompagnement':'Découvrir la formation'}</a></p>`;
+  $('orient').innerHTML = html;
+  // weak points: top 3 highest scores (>=2)
+  const idx = answers.map((v,i)=>({v,i})).filter(x=>x.v>=2).sort((a,b)=>b.v-a.v || a.i-b.i).slice(0,3);
+  $('weak').innerHTML = idx.length ? idx.map(({i}) => `<div class="w"><h4>Q${i+1} · ${Q[i].short}</h4><p>${Q[i].why}</p><p class="act">${Q[i].act}</p></div>`).join('')
+    : `<div class="w"><p>Aucun point de fragilité marqué. Vos réponses sont toutes favorables ou modérées.</p></div>`;
+  // detail
+  const col = ['#5d8f74','#d39b2a','#C9663E','#a3392b'];
+  $('detail').innerHTML = Q.map((q,i)=>`<div class="detail-row"><span class="dot" style="background:${col[answers[i]]}"></span><strong>Q${i+1} · ${q.short}</strong><br><span class="small">Votre réponse : ${q.o[answers[i]]}</span><br>${q.why}</div>`).join('');
+  // preselect besoin
+  const pre = {accompagnement:'Accompagnement', formation:'Formation', prevention:'Formation', veille:'Analyse seule'}[r.orient];
+  const radio = document.querySelector(`input[name=besoin][value="${pre}"]`); if(radio) radio.checked = true;
+}
+function barColor(p){ return p<34 ? '#5d8f74' : p<67 ? '#d39b2a' : '#C9663E'; }
+function animate(el, to){ let n=0; const step=()=>{ n=Math.min(to, n+Math.max(1,Math.round(to/30))); el.textContent=n; if(n<to) requestAnimationFrame(step); }; step(); }
+
+$('restart').onclick = () => { answers.fill(null); cur=0; result=null; $('form').reset(); $('form').classList.remove('hidden'); $('thanks').classList.add('hidden'); show('intro'); };
+
+/* ===================== FORMULAIRE ===================== */
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('ferr'); err.classList.add('hidden');
+  const f = e.target;
+  const val = id => $(id).value.trim();
+  const besoin = (f.querySelector('input[name=besoin]:checked')||{}).value;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val('email'));
+  if(!val('prenom')||!val('nom')||!val('fonction')||!emailOk){ err.textContent='Merci de renseigner prénom, nom, fonction et une adresse e-mail valide.'; err.classList.remove('hidden'); return; }
+  if(!besoin){ err.textContent='Merci d\'indiquer ce qui vous aiderait le plus.'; err.classList.remove('hidden'); return; }
+  if(!$('rgpd').checked){ err.textContent='Merci de cocher la case de consentement pour recevoir votre analyse.'; err.classList.remove('hidden'); return; }
+  if($('site').value) return; // honeypot anti-spam
+
+  const r = result;
+  const payload = {
+    version: VERSION, date: new Date().toISOString(),
+    prenom: val('prenom'), nom: val('nom'), fonction: val('fonction'), email: val('email'),
+    entreprise: val('entreprise'), effectif: val('effectif'), besoin,
+    indice: r.indice, niveau: r.level.label, exposition: r.E, transmission: r.T, total: r.total,
+    alerte: r.alerte ? 'OUI' : 'non', orientation: ORIENT[r.orient].t, facteur: r.nuance || '',
+    reponses: answers.map(a => 'abcd'[a]).join(''),
+    points_fragilite: answers.map((v,i)=>({v,i})).filter(x=>x.v>=2).sort((a,b)=>b.v-a.v||a.i-b.i).slice(0,3).map(x=>Q[x.i].short + ' : ' + Q[x.i].act).join(' | '),
+    page: location.href
+  };
+  const btn = $('send'); btn.disabled = true; btn.textContent = 'Envoi…';
+  try {
+    if(ENDPOINT.startsWith('http')){
+      await fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
+    } else { console.warn('[IRC] ENDPOINT non configuré : données non envoyées', payload); }
+    f.classList.add('hidden');
+    const msg = {
+      'Accompagnement':"Coralie Vennin vous recontactera sous quelques jours pour échanger sur un accompagnement.",
+      'Formation':"Coralie Vennin vous recontactera sous quelques jours pour vous présenter la formation.",
+      'Échange':"Coralie Vennin vous recontactera pour convenir d'un échange de 30 minutes.",
+      'Analyse seule':"Vous ne serez pas recontacté·e."
+    }[besoin];
+    $('thanks').innerHTML = `<strong>Merci ${escapeHtml(payload.prenom)} !</strong> Votre analyse détaillée arrive à l'adresse ${escapeHtml(payload.email)} (pensez à vérifier vos indésirables). ${msg}`;
+    $('thanks').classList.remove('hidden');
+  } catch(ex){
+    err.textContent = 'L\'envoi a échoué. Réessayez, ou écrivez directement à cvennin@xplearn.fr.'; err.classList.remove('hidden');
+  } finally { btn.disabled=false; btn.textContent='Recevoir mon analyse'; }
+});
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+</body>
+</html>
