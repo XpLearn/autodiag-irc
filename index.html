@@ -3,120 +3,195 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Autodiagnostic IRC · XpLearn</title>
+<title>Votre entreprise peut-elle perdre ses savoir-faire ? · Autodiagnostic XpLearn</title>
 <meta name="description" content="En 10 minutes, mesurez la vulnérabilité de votre entreprise à la perte de ses savoir-faire critiques. Autodiagnostic gratuit XpLearn fondé sur la recherche.">
+<meta name="theme-color" content="#11607C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Et si votre savoir-faire partait avec vos experts ?">
+<meta property="og:description" content="Autodiagnostic gratuit : 10 questions pour mesurer la vulnérabilité de votre entreprise à la perte de ses savoir-faire critiques.">
+<meta property="og:url" content="https://xplearn.github.io/autodiag-irc/">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2311607C'/%3E%3Cpath d='M14 44 A18 18 0 0 1 50 44' fill='none' stroke='%23F5EFE6' stroke-opacity='.35' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M14 44 A18 18 0 0 1 41 28.4' fill='none' stroke='%23C9663E' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{
-  --petrol:#11607C; --petrol-d:#0b4558; --terra:#C9663E; --sage:#7FA38F; --cream:#F5EFE6;
-  --ink:#1f2a30; --muted:#5c6970; --line:#e3dcd0; --bg:#fbf8f3; --card:#ffffff;
+  --petrol:#11607C; --petrol-d:#0b4558; --terra:#C9663E; --terra-d:#b5562f; --sage:#7FA38F; --cream:#F5EFE6;
+  --ink:#1f2a30; --muted:#566369; --line:#e3dcd0; --bg:#fbf8f3; --card:#ffffff; --tint:#eef5f7;
   --ok:#5d8f74; --mid:#d39b2a; --high:#C9663E; --crit:#a3392b;
   --serif: Georgia, "Times New Roman", serif;
   --sans: Calibri, "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
 a{color:var(--petrol)}
-.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:3px solid var(--terra);outline-offset:2px;border-radius:6px}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
 header.top{background:var(--petrol);color:#fff}
-header.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
 .brand{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.2px}
 .brand span{color:#f3c9b5}
-.tag{font-size:13px;opacity:.85}
-main{padding:28px 0 56px}
-h1,h2,h3{font-family:var(--serif);color:var(--petrol);line-height:1.25}
-h1{font-size:clamp(26px,5vw,36px);margin:.2em 0 .4em}
-h2{font-size:clamp(21px,3.6vw,26px);margin:1.4em 0 .5em}
+.tag{font-size:13px;opacity:.9}
+main{padding:26px 0 56px}
+h1,h2,h3{font-family:var(--serif);color:var(--petrol);line-height:1.22}
+h1{font-size:clamp(27px,5.2vw,38px);margin:.2em 0 .4em}
+h2{font-size:clamp(21px,3.6vw,26px);margin:1.5em 0 .5em}
 h3{font-size:19px;margin:1.1em 0 .4em}
+h1:focus,h2:focus,.qtext:focus{outline:none}
 .eyebrow{color:var(--terra);font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:1px}
-.lead{font-size:19px;color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.pill-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:22px 0}
-.pill{background:var(--cream);border-radius:12px;padding:14px 16px;font-size:15px}
-.pill b{display:block;color:var(--petrol);font-size:16px}
-.btn{appearance:none;border:0;border-radius:999px;padding:14px 26px;font:700 16px var(--sans);cursor:pointer;background:var(--terra);color:#fff;transition:transform .1s, background .2s}
-.btn:hover{background:#b5562f}
+.lead{font-size:19px;color:var(--muted);margin:.2em 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px -18px rgba(17,96,124,.35)}
+.btn{appearance:none;border:0;border-radius:999px;padding:14px 26px;font:700 16px var(--sans);cursor:pointer;background:var(--terra);color:#fff;transition:transform .1s, background .2s, box-shadow .2s;text-decoration:none;display:inline-block;text-align:center}
+.btn:hover{background:var(--terra-d)}
 .btn:active{transform:scale(.98)}
-.btn:disabled{background:#c9c2b8;cursor:not-allowed}
+.btn:disabled{background:#cfc8bd;color:#fff;cursor:not-allowed}
+.btn.big{font-size:18px;padding:16px 32px;box-shadow:0 10px 22px -12px rgba(201,102,62,.9)}
 .btn.ghost{background:transparent;color:var(--petrol);border:1.5px solid var(--petrol)}
 .btn.ghost:hover{background:var(--petrol);color:#fff}
+.btn.link{background:none;color:var(--petrol);padding:8px 4px;text-decoration:underline;font-weight:400}
 .small{font-size:14px;color:var(--muted)}
 .hidden{display:none !important}
 
-/* quiz */
-.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 18px}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--sage),var(--petrol));width:0;transition:width .35s}
-.qmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
-.bloc{color:var(--terra);font-weight:700}
-.qtext{font-family:var(--serif);font-size:clamp(20px,3.6vw,24px);color:var(--ink);margin:6px 0 18px;line-height:1.35}
-.opts{display:grid;gap:10px}
-.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;font:16px/1.45 var(--sans);color:var(--ink);cursor:pointer;transition:border-color .15s, background .15s}
-.opt:hover{border-color:var(--sage)}
-.opt.sel{border-color:var(--petrol);background:#eef5f7}
-.opt .l{flex:0 0 28px;height:28px;border-radius:50%;background:var(--cream);color:var(--petrol);font-weight:700;display:grid;place-items:center}
-.opt.sel .l{background:var(--petrol);color:#fff}
-.hint{font-size:14px;color:var(--muted);margin-top:14px}
-@media (hover:none){.hint{display:none}}
-.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:10px}
+/* ---------- intro ---------- */
+.hero{display:grid;grid-template-columns:1fr 230px;gap:26px;align-items:center}
+.hero-vis{background:var(--petrol);border-radius:20px;padding:22px 14px 18px;color:#fff;text-align:center}
+.hero-vis svg{width:170px;height:104px}
+.hero-vis .q{font:700 46px var(--serif);line-height:1;margin-top:-58px}
+.hero-vis .q small{font:400 17px var(--sans);opacity:.8}
+.hero-vis p{margin:16px 0 0;font-size:14.5px;line-height:1.35;color:#f3c9b5;font-weight:700}
+@media (max-width:640px){.hero{grid-template-columns:1fr}.hero-vis{display:none}}
+.reassure{display:flex;flex-wrap:wrap;gap:8px 10px;margin:18px 0 20px;padding:0;list-style:none}
+.reassure li{background:var(--cream);border-radius:999px;padding:6px 14px;font-size:14.5px;color:var(--ink)}
+.reassure li::before{content:"✓ ";color:var(--ok);font-weight:700}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px 0 0;padding:0;list-style:none;counter-reset:s}
+.steps li{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;font-size:15px;counter-increment:s;position:relative}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--petrol);color:#fff;font-weight:700;margin-bottom:8px}
+.steps b{display:block;color:var(--petrol);font-size:16.5px}
+@media (max-width:640px){.steps{grid-template-columns:1fr}.steps li{display:grid;grid-template-columns:30px 1fr;column-gap:12px;align-items:start}.steps li::before{margin:2px 0 0;grid-row:span 2}}
+.tips{margin-top:22px;background:var(--cream);border-radius:14px;padding:16px 18px}
+.tips h3{margin:0 0 6px;font-size:17px}
+.tips ul{margin:0;padding-left:20px}
+.resume{border-left:6px solid var(--sage);background:#eaf3ee;border-radius:10px;padding:14px 16px;margin:0 0 20px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
 
-/* results */
+/* ---------- quiz ---------- */
+.stepper{display:grid;grid-template-columns:4fr 2fr 4fr;gap:10px;margin:0 0 16px}
+.stp .lab{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+.stp.on .lab{color:var(--terra);font-weight:700}
+.stp.done .lab{color:var(--petrol)}
+.segs{display:flex;gap:4px}
+.segs i{flex:1;height:8px;border-radius:99px;background:var(--line);transition:background .3s}
+.segs i.f{background:var(--petrol)}
+.segs i.c{background:var(--terra)}
+@media (max-width:520px){.stp .lab{font-size:12px}.stp:not(.on) .lab{visibility:hidden}.stp.on .lab{overflow:visible}}
+.qmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:8px}
+.qcard{overflow:hidden}
+.qbody{animation:qin .32s ease both}
+.qbody.back{animation-name:qinb}
+@keyframes qin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes qinb{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.qtext{font-family:var(--serif);font-size:clamp(20px,3.6vw,24px);color:var(--ink);margin:0 0 8px;line-height:1.35;font-weight:400}
+.qhelp{font-size:15px;color:var(--muted);margin:0 0 14px;padding-left:12px;border-left:3px solid var(--sage)}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;font:16.5px/1.45 var(--sans);color:var(--ink);cursor:pointer;transition:border-color .15s, background .15s, transform .1s}
+.opt:hover{border-color:var(--sage);background:#fcfbf8}
+.opt:active{transform:scale(.995)}
+.opt.sel{border-color:var(--petrol);background:var(--tint)}
+.opt .l{flex:0 0 28px;height:28px;border-radius:50%;background:var(--cream);color:var(--petrol);font-weight:700;display:grid;place-items:center;font-size:14.5px;transition:background .15s,color .15s}
+.opt.sel .l{background:var(--petrol);color:#fff;font-size:0}
+.opt.sel .l::after{content:"✓";font-size:16px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px}
+.hint{font-size:14px;color:var(--muted);margin-top:14px;text-align:center}
+@media (hover:none){.hint{display:none}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,102,62,.55)}50%{box-shadow:0 0 0 10px rgba(201,102,62,0)}}
+.btn.pulse{animation:pulse 1.2s ease 2}
+
+/* ---------- results ---------- */
 .gauge-wrap{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:center}
 @media (max-width:620px){.gauge-wrap{grid-template-columns:1fr;justify-items:center;text-align:center}}
 .gauge{position:relative;width:220px;height:130px}
 .gauge svg{width:220px;height:130px}
 .gauge .val{position:absolute;left:0;right:0;bottom:2px;text-align:center}
-.gauge .val b{font:700 42px var(--serif);color:var(--ink)}
+.gauge .val b{font:700 44px var(--serif);color:var(--ink)}
 .gauge .val span{font-size:14px;color:var(--muted)}
-.level{display:inline-block;padding:4px 12px;border-radius:999px;color:#fff;font-weight:700;font-size:14px;letter-spacing:.3px}
-.bars{display:grid;gap:14px;margin-top:8px}
-.bar label{display:flex;justify-content:space-between;font-size:15px;font-weight:700}
-.bar label span{font-weight:400;color:var(--muted)}
+.level{display:inline-block;padding:5px 14px;border-radius:999px;color:#fff;font-weight:700;font-size:15px;letter-spacing:.3px}
+.scale{margin:22px 0 4px;position:relative;padding-top:14px}
+.scale .bar4{display:grid;grid-template-columns:25fr 26.7fr 23.3fr 25fr;gap:3px}
+.scale .bar4 i{height:10px;border-radius:99px;opacity:.9}
+.scale .labs{display:grid;grid-template-columns:25fr 26.7fr 23.3fr 25fr;gap:3px;font-size:12.5px;color:var(--muted);margin-top:5px;text-align:center}
+.scale .mk{position:absolute;top:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--ink);transform:translateX(-8px);left:0;transition:left 1s ease}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+@media (max-width:620px){.bars{grid-template-columns:1fr}}
+.bar .lb{display:flex;justify-content:space-between;gap:10px;font-size:15px;font-weight:700}
+.bar .lb span{font-weight:400;color:var(--muted);white-space:nowrap}
 .bar .track{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:5px}
-.bar .track i{display:block;height:100%;border-radius:99px;width:0;transition:width .8s}
+.bar .track i{display:block;height:100%;border-radius:99px;width:0;transition:width .9s ease}
 .alert{border-left:6px solid var(--crit);background:#fbece8;padding:16px 18px;border-radius:10px;margin:20px 0}
 .alert b{color:var(--crit)}
-.orient{border-left:6px solid var(--petrol);background:#eef5f7;padding:18px;border-radius:10px}
+.orient{border-left:6px solid var(--petrol);background:var(--tint);padding:18px;border-radius:10px}
 .orient h3{margin-top:0}
 .stat{display:flex;gap:16px;align-items:center;background:var(--cream);border-radius:12px;padding:16px 18px;margin:16px 0}
 .stat .big{font:700 30px var(--serif);color:var(--terra);white-space:nowrap}
+@media (max-width:520px){.stat{flex-direction:column;align-items:flex-start;gap:6px}}
 .weak{display:grid;gap:12px}
-.weak .w{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
-.weak .w h4{margin:0 0 4px;font-size:16px;color:var(--petrol)}
-.weak .w p{margin:4px 0;font-size:15px}
-.weak .w .act{color:var(--ink)}
-.weak .w .act::before{content:"→ ";color:var(--terra);font-weight:700}
+.weak .w{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;display:grid;grid-template-columns:34px 1fr;gap:4px 12px}
+.weak .w .n{grid-row:span 3;width:34px;height:34px;border-radius:50%;background:var(--terra);color:#fff;font-weight:700;display:grid;place-items:center}
+.weak .w h4{margin:4px 0 0;font-size:16.5px;color:var(--petrol)}
+.weak .w p{margin:2px 0;font-size:15.5px;grid-column:2}
+.weak .w .act{background:var(--cream);border-radius:8px;padding:8px 10px;margin-top:6px}
+.weak .w .act b{color:var(--terra)}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .fact{background:#fff;border:1px solid var(--line);border-top:4px solid var(--sage);border-radius:12px;padding:14px 16px;font-size:15px}
 .fact b{display:block;font-family:var(--serif);color:var(--petrol);font-size:17px;margin-bottom:4px}
 .fact cite{display:block;font-size:13px;color:var(--muted);margin-top:6px;font-style:normal}
-details{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 16px;margin-top:10px}
+details{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 16px;margin-top:14px}
 details summary{cursor:pointer;padding:14px 0;font-weight:700;color:var(--petrol)}
 .detail-row{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.share{background:var(--cream);border-radius:14px;padding:16px 18px;margin-top:22px}
+.share h3{margin:0 0 4px;font-size:17px}
+.share p{margin:0 0 10px;font-size:15.5px}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease}
+.rv.in{opacity:1;transform:none}
+.sticky{visibility:hidden;position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:20;display:flex;justify-content:center;align-items:center;gap:14px;transform:translateY(110%);transition:transform .3s ease, visibility 0s .3s}
+.sticky.show{transform:none;visibility:visible;transition:transform .3s ease, visibility 0s}
+.sticky span{font-size:15px;color:var(--muted)}
+@media (max-width:560px){.sticky span{display:none}.sticky .btn{width:100%}}
 
-/* form */
+/* ---------- form ---------- */
+#contact{margin-top:30px;border:2px solid var(--petrol);scroll-margin-top:16px}
 form .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:560px){form .grid{grid-template-columns:1fr}}
 .field label{display:block;font-weight:700;font-size:15px;margin-bottom:5px}
+.field label .opt-l{font-weight:400;color:var(--muted)}
 .field input,.field select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:10px;font:16px var(--sans);background:#fff;color:var(--ink)}
-.field input:focus,.field select:focus{outline:none;border-color:var(--petrol)}
-.choices{display:grid;gap:10px;margin:8px 0 4px}
-.choice{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;cursor:pointer;background:#fff}
-.choice:has(input:checked){border-color:var(--petrol);background:#eef5f7}
+.field input:focus,.field select:focus{outline:none;border-color:var(--petrol);box-shadow:0 0 0 3px rgba(17,96,124,.15)}
+.field.bad input,.field.bad select{border-color:var(--crit)}
+.field .msg{display:none;color:var(--crit);font-size:13.5px;margin-top:4px}
+.field.bad .msg{display:block}
+.choices{display:grid;gap:10px;margin:8px 0 18px}
+.choice{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;cursor:pointer;background:#fff;transition:border-color .15s, background .15s}
+.choice:hover{border-color:var(--sage)}
+.choice:has(input:checked){border-color:var(--petrol);background:var(--tint)}
 .choice input{margin-top:4px;accent-color:var(--petrol);width:18px;height:18px;flex:0 0 18px}
 .choice b{display:block}
 .choice span{font-size:14px;color:var(--muted)}
+.choice .rec{display:inline-block;background:var(--terra);color:#fff;font-size:11.5px;font-weight:700;border-radius:99px;padding:1px 9px;margin-left:6px;vertical-align:2px;letter-spacing:.3px}
 .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);margin:16px 0}
 .consent input{margin-top:3px;accent-color:var(--petrol);width:18px;height:18px;flex:0 0 18px}
+.consent.bad{color:var(--crit)}
 .hp{position:absolute;left:-9999px}
 .ok{background:#eaf3ee;border-left:6px solid var(--ok);padding:16px 18px;border-radius:10px}
-.err{color:var(--crit);font-size:14px;margin-top:8px}
-footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:13px;color:var(--muted)}
+.err{color:var(--crit);font-size:14.5px;margin-top:10px}
+footer{border-top:1px solid var(--line);padding:22px 0 90px;font-size:13px;color:var(--muted)}
 footer ol{padding-left:18px;margin:6px 0}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
 @media print{
-  header.top,.no-print,#contact,footer .refs-toggle{display:none !important}
+  header.top,.no-print,#contact,.sticky,footer .refs-toggle{display:none !important}
   body{background:#fff}
   .card{box-shadow:none}
+  .rv{opacity:1;transform:none}
+  details{display:block}
 }
 </style>
 </head>
@@ -132,47 +207,70 @@ footer ol{padding-left:18px;margin:6px 0}
 
 <!-- ========== INTRO ========== -->
 <section id="intro">
-  <div class="eyebrow">Autodiagnostic gratuit · 10 minutes</div>
-  <h1>Votre entreprise peut-elle perdre ses savoir-faire critiques&nbsp;?</h1>
-  <p class="lead">Un départ à la retraite, une démission, une absence longue… et ce que « seul Michel sait faire » disparaît avec lui. En 10 questions, mesurez votre <strong>indice de vulnérabilité à la perte de savoir-faire</strong> et sachez par où commencer.</p>
-
-  <div class="pill-list">
-    <div class="pill"><b>Pour qui ?</b>Dirigeant·es, RH, managers</div>
-    <div class="pill"><b>Sur quel périmètre ?</b>L'entreprise entière ou un service</div>
-    <div class="pill"><b>Résultat immédiat</b>Indice, points de fragilité, pistes d'action</div>
+  <div id="resume" class="resume hidden">
+    <span id="resumeTxt"></span>
+    <span><button class="btn" id="resumeGo">Reprendre</button> <button class="btn link" id="resumeNo">Recommencer</button></span>
+  </div>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Autodiagnostic gratuit · 10 minutes</div>
+      <h1 tabindex="-1">Votre entreprise peut-elle perdre ses savoir-faire critiques&nbsp;?</h1>
+      <p class="lead">Un départ à la retraite, une démission, une absence longue… et ce que « seul Michel sait faire » disparaît avec lui. Mesurez votre <strong>indice de vulnérabilité à la perte de savoir-faire</strong> et sachez par où commencer.</p>
+    </div>
+    <div class="hero-vis" aria-hidden="true">
+      <svg viewBox="0 0 170 104"><path d="M17 92 A68 68 0 0 1 153 92" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="15" stroke-linecap="round"/><path d="M17 92 A68 68 0 0 1 153 92" fill="none" stroke="#C9663E" stroke-width="15" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="74"/></svg>
+      <div class="q">?<small>/100</small></div>
+      <p>Votre indice de vulnérabilité</p>
+    </div>
   </div>
 
-  <div class="card">
-    <h3 style="margin-top:0">Avant de commencer</h3>
-    <ul style="margin:0;padding-left:20px">
+  <ul class="reassure">
+    <li>10 questions</li><li>Résultat immédiat</li><li>Sans inscription</li><li>Aucune donnée enregistrée pendant le test</li>
+  </ul>
+  <div class="cta-row">
+    <button class="btn big" id="start">Commencer le test →</button>
+    <span class="small">Pour dirigeant·es, RH et managers</span>
+  </div>
+
+  <ol class="steps">
+    <li><b>Répondez</b>10 questions concrètes sur votre entreprise ou votre service.</li>
+    <li><b>Découvrez</b>Votre indice sur 100, vos points de fragilité et une recommandation.</li>
+    <li><b>Recevez</b>Si vous le souhaitez, votre analyse détaillée par e-mail.</li>
+  </ol>
+
+  <div class="tips">
+    <h3>Pour un résultat utile</h3>
+    <ul>
       <li>Répondez selon ce qui se passe <strong>réellement</strong>, pas selon ce qui devrait se passer.</li>
       <li>Ne pensez à personne en particulier : raisonnez par savoir-faire et par poste.</li>
-      <li>Aucune donnée n'est enregistrée pendant le test. Vos coordonnées ne sont demandées qu'à la fin, et seulement si vous le souhaitez.</li>
+      <li>Choisissez un périmètre (toute l'entreprise, ou un service) et gardez-le en tête jusqu'au bout.</li>
     </ul>
-    <p style="margin:20px 0 0"><button class="btn" id="start">Commencer le test</button></p>
   </div>
-  <p class="small" style="margin-top:14px">Outil conçu par Coralie Vennin, psychologue et chercheure (XpLearn), à partir de la littérature scientifique sur la perte et la rétention des connaissances.</p>
+  <p class="small" style="margin-top:16px">Outil conçu par Coralie Vennin, psychologue et chercheure (XpLearn), à partir de la littérature scientifique sur la perte et la rétention des connaissances.</p>
 </section>
 
 <!-- ========== QUIZ ========== -->
-<section id="quiz" class="hidden" aria-live="polite">
-  <div class="qmeta"><span class="bloc" id="qbloc"></span><span id="qcount"></span></div>
-  <div class="progress"><i id="qprog"></i></div>
-  <div class="card">
-    <div class="qtext" id="qtext"></div>
-    <div class="opts" id="qopts" role="radiogroup"></div>
+<section id="quiz" class="hidden">
+  <div class="stepper" id="stepper" aria-hidden="true"></div>
+  <div class="qmeta"><span id="qcount" aria-live="polite"></span><span id="qleft"></span></div>
+  <div class="card qcard">
+    <div class="qbody" id="qbody">
+      <h2 class="qtext" id="qtext" tabindex="-1"></h2>
+      <p class="qhelp hidden" id="qhelp"></p>
+      <div class="opts" id="qopts" role="radiogroup" aria-labelledby="qtext"></div>
+    </div>
     <div class="nav">
       <button class="btn ghost" id="prev">← Précédent</button>
       <button class="btn" id="next" disabled>Suivant →</button>
     </div>
   </div>
-  <p class="hint">Astuce : vous pouvez répondre avec les touches A, B, C, D puis Entrée.</p>
+  <p class="hint">Au clavier : touches A, B, C, D pour répondre, Entrée pour continuer.</p>
 </section>
 
 <!-- ========== RESULTS ========== -->
 <section id="results" class="hidden">
   <div class="eyebrow">Vos résultats</div>
-  <h1>Votre indice de vulnérabilité à la perte de savoir-faire</h1>
+  <h1 tabindex="-1">Votre indice de vulnérabilité à la perte de savoir-faire</h1>
 
   <div class="card">
     <div class="gauge-wrap">
@@ -188,58 +286,48 @@ footer ol{padding-left:18px;margin:6px 0}
         <p id="gtext" style="margin:10px 0 0"></p>
       </div>
     </div>
-    <div class="bars" style="margin-top:22px">
-      <div class="bar"><label>Exposition de vos savoirs critiques <span id="eTxt"></span></label><div class="track"><i id="eBar"></i></div>
+    <div class="scale" aria-hidden="true">
+      <div class="mk" id="mk"></div>
+      <div class="bar4"><i style="background:#5d8f74"></i><i style="background:#d39b2a"></i><i style="background:#C9663E"></i><i style="background:#a3392b"></i></div>
+      <div class="labs"><span>Faible</span><span>Modérée</span><span>Élevée</span><span>Critique</span></div>
+    </div>
+    <div class="bars">
+      <div class="bar"><div class="lb">Exposition de vos savoirs <span id="eTxt"></span></div><div class="track"><i id="eBar"></i></div>
         <div class="small">Ce qui est critique, concentré, menacé et difficile à transmettre.</div></div>
-      <div class="bar"><label>Fragilité de vos pratiques de transmission <span id="tTxt"></span></label><div class="track"><i id="tBar"></i></div>
+      <div class="bar"><div class="lb">Fragilité de la transmission <span id="tTxt"></span></div><div class="track"><i id="tBar"></i></div>
         <div class="small">Méthode, temps dédié, anticipation et culture du partage.</div></div>
     </div>
   </div>
 
-  <div id="alertBox" class="alert hidden"><b>Alerte prioritaire.</b> Au moins un savoir-faire critique repose sur une seule personne, et son indisponibilité est probable dans les prochaines années. C'est le scénario de perte le plus fréquent et le plus coûteux. Organisez une transmission ciblée dans les semaines qui viennent.</div>
+  <div id="alertBox" class="alert hidden rv"><b>Alerte prioritaire.</b> Au moins un savoir-faire critique repose sur une seule personne, et son indisponibilité est probable dans les prochaines années. C'est le scénario de perte le plus fréquent et le plus coûteux. Organisez une transmission ciblée dans les semaines qui viennent.</div>
 
-  <div id="statBox" class="stat"></div>
+  <div id="statBox" class="stat rv"></div>
 
-  <h2>Ce que nous vous recommandons</h2>
-  <div class="orient" id="orient"></div>
+  <h2 class="rv">Ce que nous vous recommandons</h2>
+  <div class="orient rv" id="orient"></div>
 
-  <h2>Vos principaux points de fragilité</h2>
-  <div class="weak" id="weak"></div>
+  <h2 class="rv">Vos principaux points de fragilité</h2>
+  <div class="weak rv" id="weak"></div>
 
-  <h2>Ce que dit la recherche</h2>
-  <div class="facts">
+  <h2 class="rv">Ce que dit la recherche</h2>
+  <div class="facts rv">
     <div class="fact"><b>Le savoir qui part ne revient pas seul</b>Dans une étude suivie sur cinq ans, le déficit de connaissances créé par les départs ne s'est pas comblé avec le temps. Il a fallu une démarche active pour en limiter les effets.<cite>Massingham, 2018</cite></div>
     <div class="fact"><b>Le temps manque, même quand on est conscient</b>Dans les PME, les équipes voient le risque mais restent absorbées par les commandes en cours. La transmission passe toujours après.<cite>Durst &amp; Wilhelm, 2012</cite></div>
     <div class="fact"><b>On agit souvent trop tard</b>La majorité des démarches étudiées réagissent à une perte déjà en cours plutôt que de la prévenir.<cite>Daghfous et al., 2023</cite></div>
     <div class="fact"><b>Le plus précieux n'est pas écrit</b>Le principal frein au transfert tient au savoir lui-même : difficile à expliquer, il ne se transmet pas par un simple document.<cite>Szulanski, 1996</cite></div>
   </div>
 
-  <details>
+  <details class="rv">
     <summary>Voir le détail de vos 10 réponses</summary>
     <div id="detail"></div>
   </details>
 
-  <p class="no-print" style="margin-top:18px"><button class="btn ghost" onclick="window.print()">Imprimer ou enregistrer en PDF</button> <button class="btn ghost" id="restart">Refaire le test</button></p>
-
   <!-- ========== CONTACT ========== -->
-  <div id="contact" class="card" style="margin-top:30px;border:2px solid var(--petrol)">
-    <h2 style="margin-top:0">Et maintenant, on passe à l'action ?</h2>
-    <p>Indiquez ce dont vous avez besoin. Vous recevrez votre <strong>analyse détaillée par e-mail</strong> et, si vous le souhaitez, Coralie Vennin vous recontactera pour en parler.</p>
+  <div id="contact" class="card rv">
+    <h2 style="margin-top:0" tabindex="-1">Recevez votre analyse détaillée</h2>
+    <p>Elle vous est envoyée par e-mail : votre indice, vos priorités d'action et notre recommandation. Dites-nous aussi si vous souhaitez aller plus loin.</p>
     <form id="form" novalidate>
-      <div class="grid">
-        <div class="field"><label for="prenom">Prénom *</label><input id="prenom" name="prenom" autocomplete="given-name" required></div>
-        <div class="field"><label for="nom">Nom *</label><input id="nom" name="nom" autocomplete="family-name" required></div>
-        <div class="field"><label for="fonction">Fonction *</label>
-          <select id="fonction" name="fonction" required>
-            <option value="">Choisir…</option><option>Dirigeant·e</option><option>Responsable RH</option><option>Manager</option><option>Autre</option>
-          </select></div>
-        <div class="field"><label for="email">E-mail professionnel *</label><input id="email" name="email" type="email" autocomplete="email" required></div>
-        <div class="field"><label for="entreprise">Entreprise</label><input id="entreprise" name="entreprise" autocomplete="organization"></div>
-        <div class="field"><label for="effectif">Effectif</label>
-          <select id="effectif" name="effectif"><option value="">Choisir…</option><option>Moins de 10</option><option>10 à 49</option><option>50 à 249</option><option>250 et plus</option></select></div>
-      </div>
-
-      <h3>Ce qui vous aiderait le plus</h3>
+      <h3 style="margin-top:.6em">Ce qui vous aiderait le plus</h3>
       <div class="choices" id="choices">
         <label class="choice"><input type="radio" name="besoin" value="Accompagnement"><div><b>Être accompagné·e pour capitaliser nos savoirs critiques</b><span>Un intervenant identifie, recueille et organise la transmission avec vos équipes.</span></div></label>
         <label class="choice"><input type="radio" name="besoin" value="Formation"><div><b>Former nos managers ou experts à une méthode</b><span>Pour mener la capitalisation en interne, en autonomie.</span></div></label>
@@ -247,15 +335,42 @@ footer ol{padding-left:18px;margin:6px 0}
         <label class="choice"><input type="radio" name="besoin" value="Analyse seule"><div><b>Recevoir seulement l'analyse détaillée</b><span>Aucun recontact.</span></div></label>
       </div>
 
+      <h3>Vos coordonnées</h3>
+      <div class="grid">
+        <div class="field"><label for="prenom">Prénom</label><input id="prenom" name="prenom" autocomplete="given-name" required><div class="msg">Indiquez votre prénom.</div></div>
+        <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" autocomplete="family-name" required><div class="msg">Indiquez votre nom.</div></div>
+        <div class="field"><label for="fonction">Fonction</label>
+          <select id="fonction" name="fonction" required>
+            <option value="">Choisir…</option><option>Dirigeant·e</option><option>Responsable RH</option><option>Manager</option><option>Autre</option>
+          </select><div class="msg">Choisissez votre fonction.</div></div>
+        <div class="field"><label for="email">E-mail professionnel</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required><div class="msg">Vérifiez l'adresse e-mail.</div></div>
+        <div class="field"><label for="entreprise">Entreprise <span class="opt-l">(facultatif)</span></label><input id="entreprise" name="entreprise" autocomplete="organization"></div>
+        <div class="field"><label for="effectif">Effectif <span class="opt-l">(facultatif)</span></label>
+          <select id="effectif" name="effectif"><option value="">Choisir…</option><option>Moins de 10</option><option>10 à 49</option><option>50 à 249</option><option>250 et plus</option></select></div>
+      </div>
+
       <input class="hp" tabindex="-1" autocomplete="off" name="site" id="site" aria-hidden="true">
-      <label class="consent"><input type="checkbox" id="rgpd" required><span>J'accepte que XpLearn utilise ces informations pour m'envoyer mon analyse et, selon mon choix ci-dessus, me recontacter. Elles ne sont jamais cédées à des tiers et sont conservées 3 ans au plus après le dernier contact. Je peux demander leur consultation ou leur suppression à tout moment : <a href="mailto:cvennin@xplearn.fr">cvennin@xplearn.fr</a>.</span></label>
-      <button class="btn" type="submit" id="send">Recevoir mon analyse</button>
-      <div class="err hidden" id="ferr"></div>
+      <label class="consent" id="consentL"><input type="checkbox" id="rgpd" required><span>J'accepte que XpLearn utilise ces informations pour m'envoyer mon analyse et, selon mon choix ci-dessus, me recontacter. Elles ne sont jamais cédées à des tiers et sont conservées 3 ans au plus après le dernier contact. Je peux demander leur consultation ou leur suppression à tout moment : <a href="mailto:cvennin@xplearn.fr">cvennin@xplearn.fr</a>.</span></label>
+      <button class="btn big" type="submit" id="send">Recevoir mon analyse</button>
+      <div class="err hidden" id="ferr" role="alert"></div>
     </form>
-    <div id="thanks" class="ok hidden"></div>
+    <div id="thanks" class="ok hidden" role="status" tabindex="-1"></div>
+  </div>
+
+  <div class="share no-print rv">
+    <h3>Comparez avec un collègue</h3>
+    <p>Dirigeant, RH et manager ne voient pas toujours les mêmes risques. Faites répondre une autre personne de votre entreprise : les écarts entre vos réponses sont souvent aussi instructifs que les scores.</p>
+    <button class="btn ghost" id="copy">Copier le lien du test</button> <span class="small" id="copied" role="status"></span>
+  </div>
+
+  <div class="tools no-print rv">
+    <button class="btn ghost" id="print">Imprimer ou enregistrer en PDF</button>
+    <button class="btn link" id="restart">Refaire le test</button>
   </div>
 </section>
 </main>
+
+<div class="sticky no-print" id="sticky"><span>Gardez une trace de vos résultats</span><a class="btn" href="#contact" id="stickyBtn">Recevoir mon analyse par e-mail</a></div>
 
 <footer>
   <div class="wrap">
@@ -277,11 +392,12 @@ footer ol{padding-left:18px;margin:6px 0}
 
 <script>
 /* ===================== CONFIGURATION ===================== */
-// Collez ici l'URL de déploiement de votre Apps Script (se termine par /exec)
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwPiMeSrDAH7Z-zhNzxkMzhQuEFg-PoUUlyhJvTOtZ6MKj5YcFjvwgI4PQ8I3lKF__t/exec';
-const VERSION = 'IRC v0.1';
+const VERSION = 'IRC v0.1 · interface 2';
+const SHARE_URL = 'https://xplearn.github.io/autodiag-irc/';
+const STORE = 'irc_session_v1';
 
-/* ===================== DONNÉES ===================== */
+/* ===================== DONNÉES (questionnaire et calcul : inchangés) ===================== */
 const BLOCS = { A:'Bloc A · Ce qui est critique', B:'Bloc B · Ce qui est fragile', C:'Bloc C · Méthode et temps' };
 const Q = [
  {b:'A', short:'Identification des savoirs critiques',
@@ -342,51 +458,116 @@ const LEVELS = [
  {max:22, label:'Vulnérabilité élevée',   color:'#C9663E', text:"Plusieurs savoirs critiques sont exposés, et votre capacité à les transmettre est limitée. Un seul départ peut désorganiser l'activité."},
  {max:30, label:'Vulnérabilité critique', color:'#a3392b', text:"Votre savoir-faire critique dépend de quelques personnes, sans méthode ni temps pour le transmettre. Le risque est probablement déjà en train de se réaliser."}
 ];
+// Rappels de contexte affichés sous certaines questions (aide à la compréhension, sans effet sur le score)
+const HELP = {
+  1:"Gardez en tête les savoir-faire critiques auxquels vous avez pensé à la question précédente.",
+  2:"Raisonnez par poste, sans penser à une personne en particulier.",
+  3:"Toujours pour vos savoir-faire critiques.",
+  4:"Si aucun départ récent ne vous vient à l'esprit, pensez à une absence longue ou à un changement de poste.",
+  5:"Toujours pour vos savoir-faire critiques."
+};
+const BLOC_LABELS = { A:'Ce qui est critique', B:'Ce qui est fragile', C:'Méthode et temps' };
 
 /* ===================== ÉTAT ===================== */
 let answers = new Array(Q.length).fill(null);
 let cur = 0;
 let result = null;
+let sent = false;
+let advTimer = null;
 const $ = id => document.getElementById(id);
-function show(id){ ['intro','quiz','results'].forEach(s => $(s).classList.toggle('hidden', s!==id)); window.scrollTo({top:0,behavior:'smooth'}); }
+const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function save(done){ try{ sessionStorage.setItem(STORE, JSON.stringify({answers, cur, done: done===undefined ? !!result : !!done, sent})); }catch(e){} }
+function load(){ try{ const s = JSON.parse(sessionStorage.getItem(STORE)||'null'); if(s && Array.isArray(s.answers) && s.answers.length===Q.length) return s; }catch(e){} return null; }
+function clearStore(){ try{ sessionStorage.removeItem(STORE); }catch(e){} }
+
+function show(id, focusSel){
+  ['intro','quiz','results'].forEach(s => $(s).classList.toggle('hidden', s!==id));
+  window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  if(focusSel){ const el = document.querySelector(focusSel); if(el) el.focus({preventScroll:true}); }
+}
 
 /* ===================== QUIZ ===================== */
-function render(){
+function renderStepper(){
+  const groups = ['A','B','C'];
+  const curB = Q[cur].b;
+  $('stepper').innerHTML = groups.map(g => {
+    const idxs = Q.map((q,i)=>q.b===g?i:-1).filter(i=>i>=0);
+    const done = idxs.every(i => answers[i]!==null) && g!==curB;
+    const segs = idxs.map(i => `<i class="${i===cur?'c':(answers[i]!==null?'f':'')}"></i>`).join('');
+    return `<div class="stp ${g===curB?'on':''} ${done?'done':''}"><div class="lab">${BLOC_LABELS[g]}</div><div class="segs">${segs}</div></div>`;
+  }).join('');
+}
+function render(dir){
+  clearTimeout(advTimer);
   const q = Q[cur];
-  $('qbloc').textContent = BLOCS[q.b];
+  renderStepper();
   $('qcount').textContent = `Question ${cur+1} sur ${Q.length}`;
-  $('qprog').style.width = `${(cur)/Q.length*100}%`;
+  const left = Q.length - cur;
+  $('qleft').textContent = left>1 ? `Encore environ ${Math.max(1, Math.round(left*0.8))} min` : 'Dernière question';
   $('qtext').textContent = q.t;
+  const help = HELP[cur];
+  $('qhelp').textContent = help || ''; $('qhelp').classList.toggle('hidden', !help);
   const box = $('qopts'); box.innerHTML = '';
   q.o.forEach((txt,i) => {
     const b = document.createElement('button');
     b.type='button'; b.className = 'opt' + (answers[cur]===i?' sel':'');
-    b.setAttribute('role','radio'); b.setAttribute('aria-checked', answers[cur]===i);
-    b.innerHTML = `<span class="l">${'ABCD'[i]}</span><span></span>`;
+    b.setAttribute('role','radio'); b.setAttribute('aria-checked', String(answers[cur]===i));
+    b.innerHTML = `<span class="l" aria-hidden="true">${'ABCD'[i]}</span><span></span>`;
     b.lastChild.textContent = txt;
-    b.onclick = () => pick(i);
+    b.addEventListener('click', () => pick(i));
+    b.addEventListener('keydown', e => {
+      const btns = [...box.children];
+      if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); btns[(i+1)%btns.length].focus(); }
+      if(e.key==='ArrowUp'){ e.preventDefault(); btns[(i-1+btns.length)%btns.length].focus(); }
+    });
     box.appendChild(b);
   });
-  $('prev').style.visibility = cur===0 ? 'hidden' : 'visible';
-  $('next').disabled = answers[cur]===null;
-  $('next').textContent = cur===Q.length-1 ? 'Voir mes résultats →' : 'Suivant →';
+  $('prev').textContent = cur===0 ? '← Accueil' : '← Précédent';
+  updateNext();
+  if(dir){
+    const body = $('qbody'); body.classList.remove('back'); body.style.animation='none'; void body.offsetWidth; body.style.animation='';
+    if(dir<0) body.classList.add('back');
+    const top = $('quiz').getBoundingClientRect().top + window.scrollY - 8;
+    if(window.scrollY > top) window.scrollTo({top, behavior: reduce ? 'auto' : 'smooth'});
+    $('qtext').focus({preventScroll:true});
+  }
+}
+function updateNext(){
+  const n = $('next');
+  n.disabled = answers[cur]===null;
+  n.textContent = cur===Q.length-1 ? 'Voir mes résultats →' : 'Suivant →';
 }
 function pick(i){
-  answers[cur]=i; render();
-  if(cur < Q.length-1) setTimeout(()=>{ if(answers[cur]===i){ cur++; render(); } }, 280);
+  clearTimeout(advTimer);
+  answers[cur]=i; save();
+  [...$('qopts').children].forEach((b,k) => { b.classList.toggle('sel', k===i); b.setAttribute('aria-checked', String(k===i)); });
+  renderStepper(); updateNext();
+  if(cur < Q.length-1){
+    const at = cur;
+    advTimer = setTimeout(()=>{ if(cur===at && answers[at]===i) go(1); }, reduce ? 150 : 420);
+  } else {
+    const n = $('next'); n.classList.remove('pulse'); void n.offsetWidth; n.classList.add('pulse');
+    n.scrollIntoView({block:'nearest', behavior: reduce ? 'auto' : 'smooth'});
+  }
 }
-$('start').onclick = () => { show('quiz'); render(); };
-$('prev').onclick = () => { if(cur>0){cur--; render();} };
-$('next').onclick = () => { if(answers[cur]===null) return; if(cur<Q.length-1){cur++; render();} else finish(); };
+function go(d){
+  if(d>0){ if(answers[cur]===null) return; if(cur<Q.length-1){ cur++; save(); render(1); } else finish(); }
+  else { if(cur>0){ cur--; save(); render(-1); } else { clearTimeout(advTimer); show('intro','#intro h1'); } }
+}
+function startQuiz(){ show('quiz'); render(0); $('qtext').focus({preventScroll:true}); }
+$('start').addEventListener('click', () => { answers.fill(null); cur=0; result=null; save(); startQuiz(); });
+$('prev').addEventListener('click', () => go(-1));
+$('next').addEventListener('click', () => go(1));
 document.addEventListener('keydown', e => {
-  if($('quiz').classList.contains('hidden')) return;
+  if($('quiz').classList.contains('hidden') || e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key.toUpperCase();
-  if('ABCD'.includes(k) && k.length===1) pick('ABCD'.indexOf(k));
-  if(e.key==='Enter' && answers[cur]!==null) $('next').click();
-  if(e.key==='ArrowLeft') $('prev').click();
+  let i = 'ABCD'.indexOf(k); if(i<0) i = '1234'.indexOf(k);
+  if(k.length===1 && i>=0){ e.preventDefault(); pick(i); return; }
+  if(e.key==='Enter' && answers[cur]!==null && !(document.activeElement && document.activeElement.classList.contains('opt'))){ e.preventDefault(); go(1); }
 });
 
-/* ===================== SCORE ===================== */
+/* ===================== SCORE (inchangé) ===================== */
 function compute(){
   const s = answers;
   const E = s.slice(0,6).reduce((a,b)=>a+b,0);
@@ -424,64 +605,123 @@ const NUANCE = {
   methode:"<strong>Le facteur limitant chez vous, c'est la méthode.</strong> Vous avez un peu de marge en temps : se former à une démarche structurée est le levier le plus rentable."
 };
 
+/* ===================== RÉSULTATS ===================== */
 function finish(){
-  $('qprog').style.width='100%';
+  clearTimeout(advTimer);
   result = compute();
   const r = result;
-  show('results');
-  // gauge
+  save(true);
+  show('results', '#results h1');
+  // jauge
   const arc = $('garc');
   arc.style.stroke = r.level.color;
-  requestAnimationFrame(()=> arc.style.strokeDashoffset = 283 - 283*r.indice/100 );
+  requestAnimationFrame(()=> requestAnimationFrame(()=> { arc.style.strokeDashoffset = 283 - 283*r.indice/100; $('mk').style.left = Math.min(99, Math.max(1, r.indice)) + '%'; }));
   animate($('gval'), r.indice);
   $('glevel').textContent = r.level.label; $('glevel').style.background = r.level.color;
   $('gtext').textContent = r.level.text;
-  // bars
+  // barres
   const eP = Math.round(r.E/18*100), tP = Math.round(r.T/12*100);
   $('eTxt').textContent = eP+' %'; $('tTxt').textContent = tP+' %';
   $('eBar').style.background = barColor(eP); $('tBar').style.background = barColor(tP);
-  setTimeout(()=>{ $('eBar').style.width=eP+'%'; $('tBar').style.width=tP+'%'; }, 60);
-  // alert
+  $('eBar').style.width='0'; $('tBar').style.width='0';
+  setTimeout(()=>{ $('eBar').style.width=eP+'%'; $('tBar').style.width=tP+'%'; }, 80);
+  // alerte
   $('alertBox').classList.toggle('hidden', !r.alerte);
-  // stat
+  // délai de reconstitution
   const learn = LEARN[answers[3]];
   const solo = answers[1]>=2;
   $('statBox').innerHTML = `<div class="big">${learn}</div><div>D'après vos réponses, c'est le temps nécessaire pour qu'un remplaçant maîtrise vos savoirs critiques${solo ? ", alors qu'<strong>au moins l'un d'eux repose sur une seule personne</strong>" : ""}. Et ce délai ne compte pas le temps de recrutement${answers[8]>=2 ? " : or votre transmission démarre aujourd'hui dans les dernières semaines, voire après le départ" : ""}.</div>`;
-  // orientation
+  // recommandation
   const o = ORIENT[r.orient];
   let html = `<h3>${o.t}</h3><p>${o.p}</p>`;
   if(r.nuance && r.orient!=='veille') html += `<p>${NUANCE[r.nuance]}</p>`;
   if(r.culture) html += `<p><strong>Point d'attention :</strong> vous signalez des freins culturels au partage. Un travail sur le sens et la reconnaissance doit accompagner toute démarche technique, sans quoi les experts risquent de garder leur savoir.</p>`;
-  if(r.orient!=='veille') html += `<p class="no-print" style="margin:12px 0 0"><a class="btn" href="#contact" style="text-decoration:none;display:inline-block">${r.orient==='accompagnement'?'Parler d\'un accompagnement':'Découvrir la formation'}</a></p>`;
+  if(r.orient!=='veille') html += `<p class="no-print" style="margin:12px 0 0"><a class="btn" href="#contact">${r.orient==='accompagnement'?'Parler d\'un accompagnement':'Découvrir la formation'}</a></p>`;
   $('orient').innerHTML = html;
-  // weak points: top 3 highest scores (>=2)
+  // points de fragilité : les 3 réponses les plus défavorables (score >= 2)
   const idx = answers.map((v,i)=>({v,i})).filter(x=>x.v>=2).sort((a,b)=>b.v-a.v || a.i-b.i).slice(0,3);
-  $('weak').innerHTML = idx.length ? idx.map(({i}) => `<div class="w"><h4>Q${i+1} · ${Q[i].short}</h4><p>${Q[i].why}</p><p class="act">${Q[i].act}</p></div>`).join('')
-    : `<div class="w"><p>Aucun point de fragilité marqué. Vos réponses sont toutes favorables ou modérées.</p></div>`;
-  // detail
+  $('weak').innerHTML = idx.length ? idx.map(({i},k) => `<div class="w"><div class="n">${k+1}</div><h4>${Q[i].short}</h4><p>${Q[i].why}</p><p class="act"><b>À faire :</b> ${Q[i].act}</p></div>`).join('')
+    : `<div class="w" style="grid-template-columns:1fr"><p style="grid-column:1">Aucun point de fragilité marqué. Vos réponses sont toutes favorables ou modérées.</p></div>`;
+  // détail
   const col = ['#5d8f74','#d39b2a','#C9663E','#a3392b'];
   $('detail').innerHTML = Q.map((q,i)=>`<div class="detail-row"><span class="dot" style="background:${col[answers[i]]}"></span><strong>Q${i+1} · ${q.short}</strong><br><span class="small">Votre réponse : ${q.o[answers[i]]}</span><br>${q.why}</div>`).join('');
-  // preselect besoin
+  // choix pré-sélectionné et repéré comme recommandé
   const pre = {accompagnement:'Accompagnement', formation:'Formation', prevention:'Formation', veille:'Analyse seule'}[r.orient];
-  const radio = document.querySelector(`input[name=besoin][value="${pre}"]`); if(radio) radio.checked = true;
+  document.querySelectorAll('.choice .rec').forEach(x => x.remove());
+  const radio = document.querySelector(`input[name=besoin][value="${pre}"]`);
+  if(radio){ radio.checked = true; if(r.orient!=='veille'){ const t = document.createElement('em'); t.className='rec'; t.style.fontStyle='normal'; t.textContent='Recommandé pour vous'; radio.parentElement.querySelector('b').appendChild(t); } }
+  updateSendLabel();
+  reveal();
 }
 function barColor(p){ return p<34 ? '#5d8f74' : p<67 ? '#d39b2a' : '#C9663E'; }
-function animate(el, to){ let n=0; const step=()=>{ n=Math.min(to, n+Math.max(1,Math.round(to/30))); el.textContent=n; if(n<to) requestAnimationFrame(step); }; step(); }
+function animate(el, to){ if(reduce){ el.textContent = to; return; } let n=0; const step=()=>{ n=Math.min(to, n+Math.max(1,Math.round(to/30))); el.textContent=n; if(n<to) requestAnimationFrame(step); }; step(); }
 
-$('restart').onclick = () => { answers.fill(null); cur=0; result=null; $('form').reset(); $('form').classList.remove('hidden'); $('thanks').classList.add('hidden'); show('intro'); };
+let io = null;
+function reveal(){
+  const els = document.querySelectorAll('#results .rv');
+  if(reduce || !('IntersectionObserver' in window)){ els.forEach(e => e.classList.add('in')); }
+  else {
+    if(!io) io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin:'0px 0px -8% 0px'});
+    els.forEach(e => { e.classList.remove('in'); io.observe(e); });
+  }
+  stickyWatch();
+}
+let ioForm = null, formVisible = false;
+function stickyUpdate(){ $('sticky').classList.toggle('show', !$('results').classList.contains('hidden') && !formVisible && !sent && window.scrollY > 240); }
+function stickyWatch(){
+  if('IntersectionObserver' in window && !ioForm){
+    ioForm = new IntersectionObserver(es => { formVisible = es[0].isIntersecting; stickyUpdate(); });
+    ioForm.observe($('contact'));
+  }
+  stickyUpdate();
+}
+window.addEventListener('scroll', stickyUpdate, {passive:true});
+$('stickyBtn').addEventListener('click', () => setTimeout(()=> $('contact').querySelector('h2').focus({preventScroll:true}), 400));
+
+$('print').addEventListener('click', () => { document.querySelectorAll('#results .rv').forEach(e => e.classList.add('in')); window.print(); });
+$('copy').addEventListener('click', async () => {
+  let ok = false;
+  try{ await navigator.clipboard.writeText(SHARE_URL); ok = true; }catch(e){}
+  $('copied').textContent = ok ? 'Lien copié. Vous pouvez le coller dans un e-mail ou un message.' : 'Lien à partager : ' + SHARE_URL;
+});
+$('restart').addEventListener('click', () => {
+  answers.fill(null); cur=0; result=null; sent=false; clearStore();
+  $('form').reset(); $('form').classList.remove('hidden'); $('thanks').classList.add('hidden');
+  $('sticky').classList.remove('show');
+  show('intro','#intro h1');
+});
 
 /* ===================== FORMULAIRE ===================== */
+function updateSendLabel(){
+  const b = (document.querySelector('input[name=besoin]:checked')||{}).value;
+  $('send').textContent = (!b || b==='Analyse seule') ? 'Recevoir mon analyse' : 'Recevoir mon analyse et être recontacté·e';
+}
+$('choices').addEventListener('change', updateSendLabel);
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function checkField(id){
+  const el = $(id); const v = el.value.trim();
+  const ok = id==='email' ? emailRe.test(v) : v.length>0;
+  el.closest('.field').classList.toggle('bad', !ok);
+  el.setAttribute('aria-invalid', String(!ok));
+  return ok;
+}
+['prenom','nom','fonction','email'].forEach(id => {
+  $(id).addEventListener('blur', () => { if($(id).value.trim() || $(id).closest('.field').classList.contains('bad')) checkField(id); });
+  $(id).addEventListener('input', () => { if($(id).closest('.field').classList.contains('bad')) checkField(id); });
+});
+$('rgpd').addEventListener('change', () => $('consentL').classList.toggle('bad', false));
+
 $('form').addEventListener('submit', async e => {
   e.preventDefault();
   const err = $('ferr'); err.classList.add('hidden');
   const f = e.target;
   const val = id => $(id).value.trim();
   const besoin = (f.querySelector('input[name=besoin]:checked')||{}).value;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val('email'));
-  if(!val('prenom')||!val('nom')||!val('fonction')||!emailOk){ err.textContent='Merci de renseigner prénom, nom, fonction et une adresse e-mail valide.'; err.classList.remove('hidden'); return; }
-  if(!besoin){ err.textContent='Merci d\'indiquer ce qui vous aiderait le plus.'; err.classList.remove('hidden'); return; }
-  if(!$('rgpd').checked){ err.textContent='Merci de cocher la case de consentement pour recevoir votre analyse.'; err.classList.remove('hidden'); return; }
-  if($('site').value) return; // honeypot anti-spam
+  const bad = ['prenom','nom','fonction','email'].filter(id => !checkField(id));
+  if(!besoin){ err.textContent='Indiquez ce qui vous aiderait le plus.'; err.classList.remove('hidden'); $('choices').scrollIntoView({block:'center'}); return; }
+  if(bad.length){ err.textContent='Quelques informations sont à compléter ci-dessus.'; err.classList.remove('hidden'); $(bad[0]).focus(); return; }
+  if(!$('rgpd').checked){ $('consentL').classList.add('bad'); err.textContent='Cochez la case de consentement pour recevoir votre analyse.'; err.classList.remove('hidden'); $('rgpd').focus(); return; }
+  if($('site').value) return; // piège anti-robots
 
   const r = result;
   const payload = {
@@ -494,11 +734,12 @@ $('form').addEventListener('submit', async e => {
     points_fragilite: answers.map((v,i)=>({v,i})).filter(x=>x.v>=2).sort((a,b)=>b.v-a.v||a.i-b.i).slice(0,3).map(x=>Q[x.i].short + ' : ' + Q[x.i].act).join(' | '),
     page: location.href
   };
-  const btn = $('send'); btn.disabled = true; btn.textContent = 'Envoi…';
+  const btn = $('send'); const label = btn.textContent; btn.disabled = true; btn.textContent = 'Envoi en cours…';
   try {
     if(ENDPOINT.startsWith('http')){
       await fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
     } else { console.warn('[IRC] ENDPOINT non configuré : données non envoyées', payload); }
+    sent = true; save(true); stickyUpdate();
     f.classList.add('hidden');
     const msg = {
       'Accompagnement':"Coralie Vennin vous recontactera sous quelques jours pour échanger sur un accompagnement.",
@@ -506,13 +747,31 @@ $('form').addEventListener('submit', async e => {
       'Échange':"Coralie Vennin vous recontactera pour convenir d'un échange de 30 minutes.",
       'Analyse seule':"Vous ne serez pas recontacté·e."
     }[besoin];
-    $('thanks').innerHTML = `<strong>Merci ${escapeHtml(payload.prenom)} !</strong> Votre analyse détaillée arrive à l'adresse ${escapeHtml(payload.email)} (pensez à vérifier vos indésirables). ${msg}`;
-    $('thanks').classList.remove('hidden');
+    $('thanks').innerHTML = `<strong>Merci ${escapeHtml(payload.prenom)} !</strong> Votre analyse détaillée arrive à l'adresse ${escapeHtml(payload.email)}. Si vous ne la voyez pas d'ici quelques minutes, regardez dans vos indésirables. ${msg}`;
+    $('thanks').classList.remove('hidden'); $('thanks').focus({preventScroll:true});
+    $('thanks').scrollIntoView({block:'center', behavior: reduce ? 'auto' : 'smooth'});
   } catch(ex){
-    err.textContent = 'L\'envoi a échoué. Réessayez, ou écrivez directement à cvennin@xplearn.fr.'; err.classList.remove('hidden');
-  } finally { btn.disabled=false; btn.textContent='Recevoir mon analyse'; }
+    err.textContent = 'L\'envoi a échoué. Vérifiez votre connexion et réessayez, ou écrivez à cvennin@xplearn.fr.'; err.classList.remove('hidden');
+  } finally { btn.disabled=false; btn.textContent=label; }
 });
 function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===================== REPRISE DE SESSION ===================== */
+(function(){
+  const s = load(); if(!s) return;
+  const n = s.answers.filter(a => a!==null).length;
+  if(s.done && n===Q.length){
+    answers = s.answers; cur = Q.length-1; sent = !!s.sent; finish();
+    if(sent){ $('form').classList.add('hidden'); $('thanks').innerHTML = '<strong>Votre demande a bien été envoyée.</strong> Votre analyse détaillée vous attend dans votre boîte e-mail (pensez à regarder dans vos indésirables).'; $('thanks').classList.remove('hidden'); }
+    return;
+  }
+  if(n>0){
+    $('resumeTxt').textContent = `Vous aviez commencé le test (${n} réponse${n>1?'s':''} sur ${Q.length}).`;
+    $('resume').classList.remove('hidden');
+    $('resumeGo').addEventListener('click', () => { answers = s.answers; const fi = answers.findIndex(a => a===null); cur = fi<0 ? Q.length-1 : fi; startQuiz(); });
+    $('resumeNo').addEventListener('click', () => { clearStore(); $('resume').classList.add('hidden'); });
+  }
+})();
 </script>
 </body>
 </html>
